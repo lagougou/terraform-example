@@ -20,12 +20,21 @@ variable "subnet_prefix" {
 
 }
 
+# input variable
 
+#variable "instance_type" {
+#  type = string
+#}
+
+# local value
+locals {
+  project_name = "Deraiven"
+}
 
 resource "aws_vpc" "prod-vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    Name = "production"
+    Name = "production-${local.project_name}"
   }
 }
 
@@ -49,7 +58,9 @@ resource "aws_subnet" "subnet-2" {
   }
 }
 
-
+output "public_ip" {
+  value = aws_instance.web-server-instance.public_ip
+}
 # # 1. Create vpc
 
 # resource "aws_vpc" "prod-vpc" {
@@ -206,3 +217,4 @@ resource "aws_subnet" "subnet-2" {
 #     key = "value"
 #     key2 = "another value"
 # }
+
